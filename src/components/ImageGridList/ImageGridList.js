@@ -14,7 +14,7 @@ import CloseIcon from "@material-ui/icons/Close";
 import Typography from "@material-ui/core/Typography";
 
 const useStyles = makeStyles((theme) => ({
-  root: {
+  grid: {
     display: "flex",
     flexWrap: "wrap",
     justifyContent: "space-around",
@@ -37,6 +37,9 @@ const useStyles = makeStyles((theme) => ({
   },
   author: {
     color: theme.palette.grey[400],
+  },
+  imgModal: {
+    width: 500,
   },
   icon: {
     color: theme.palette.warning.light,
@@ -82,38 +85,57 @@ const DialogContent = withStyles((theme) => ({
   },
 }))(MuiDialogContent);
 
-export default function ImageGridList() {
+function ImageGridList() {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
 
-  const handleClickOpen = () => {
+  const [imgId, setId] = React.useState("");
+  const [imgTitle, setTitle] = React.useState("");
+  const [imgAuthor, setAuthor] = React.useState("");
+  const [imgUrl, setUrl] = React.useState("");
+
+  const handleClick = (item) => {
+    activeItemId(item);
+    modalOpen();
+  };
+  const activeItemId = (value) => {
+    const getTile = tileData.find((tile) => tile.id === value);
+    const getTitle = (getTile && getTile.title) || "";
+    const getAuthor = (getTile && getTile.author) || "";
+    const getUrl = (getTile && getTile.img) || "";
+    setId(value);
+    setTitle(getTitle);
+    setAuthor(getAuthor);
+    setUrl(getUrl);
+  };
+  const modalOpen = () => {
     setOpen(true);
   };
-  const handleClose = () => {
+  const modalClose = () => {
     setOpen(false);
   };
+
   return (
-    <div className={classes.root}>
+    <div className={classes.grid}>
       <GridList cellHeight={160} className={classes.gridList} cols={3}>
-        {tileData.map((tile) => (
+        {tileData.map(({ id, img, title, author, cols }) => (
           <GridListTile
-            key={tile.img}
-            cols={tile.cols || 1}
+            key={id}
+            cols={cols || 1}
             className={classes.imgTile}
-            onClick={handleClickOpen}
+            title={title}
+            onClick={handleClick.bind(this, id)}
           >
-            <img src={tile.img} alt={tile.title} />
+            <img src={img} alt={title} />
             <GridListTileBar
-              title={tile.title}
-              subtitle={
-                <span className={classes.author}>by: {tile.author}</span>
-              }
+              title={title}
+              subtitle={<span className={classes.author}>by: {author}</span>}
               classes={{
                 title: classes.title,
               }}
               actionIcon={
                 <IconButton
-                  aria-label={`star ${tile.title}`}
+                  aria-label={`star ${title}`}
                   className={classes.icon}
                 >
                   <StarBorderIcon />
@@ -126,31 +148,21 @@ export default function ImageGridList() {
         ))}
       </GridList>
       <Dialog
-        onClose={handleClose}
+        onClose={modalClose}
         aria-labelledby="customized-dialog-title"
         open={open}
       >
-        <DialogTitle id="customized-dialog-title" onClose={handleClose}>
-          Modal title
+        <DialogTitle id="customized-dialog-title" onClose={modalClose}>
+          {imgTitle} by {imgAuthor}
         </DialogTitle>
         <DialogContent dividers>
           <Typography gutterBottom>
-            Cras mattis consectetur purus sit amet fermentum. Cras justo odio,
-            dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta
-            ac consectetur ac, vestibulum at eros.
-          </Typography>
-          <Typography gutterBottom>
-            Praesent commodo cursus magna, vel scelerisque nisl consectetur et.
-            Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor
-            auctor.
-          </Typography>
-          <Typography gutterBottom>
-            Aenean lacinia bibendum nulla sed consectetur. Praesent commodo
-            cursus magna, vel scelerisque nisl consectetur et. Donec sed odio
-            dui. Donec ullamcorper nulla non metus auctor fringilla.
+            <img className={classes.imgModal} src={imgUrl} alt={imgTitle} />
           </Typography>
         </DialogContent>
       </Dialog>
     </div>
   );
 }
+
+export default ImageGridList;
