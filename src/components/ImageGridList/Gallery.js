@@ -1,10 +1,9 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import { withStyles } from "@material-ui/core/styles";
+import tileData from "./tileData";
+import { makeStyles, withStyles } from "@material-ui/core/styles";
 import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
 import GridListTileBar from "@material-ui/core/GridListTileBar";
-import tileData from "./tileData";
 import IconButton from "@material-ui/core/IconButton";
 import StarBorderIcon from "@material-ui/icons/StarBorder";
 import Dialog from "@material-ui/core/Dialog";
@@ -22,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
   },
   gridList: {
     width: 500,
-    height: 500,
+    height: 492,
   },
   imgTile: {
     cursor: "pointer",
@@ -85,11 +84,10 @@ const DialogContent = withStyles((theme) => ({
   },
 }))(MuiDialogContent);
 
-function ImageGridList() {
+function Gallery() {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
-
-  const [imgId, setId] = React.useState("");
+  const [imgId, setId] = React.useState(null);
   const [imgTitle, setTitle] = React.useState("");
   const [imgAuthor, setAuthor] = React.useState("");
   const [imgUrl, setUrl] = React.useState("");
@@ -103,7 +101,7 @@ function ImageGridList() {
     const getTitle = (getTile && getTile.title) || "";
     const getAuthor = (getTile && getTile.author) || "";
     const getUrl = (getTile && getTile.img) || "";
-    setId(value);
+    setId(value.toString());
     setTitle(getTitle);
     setAuthor(getAuthor);
     setUrl(getUrl);
@@ -116,53 +114,52 @@ function ImageGridList() {
   };
 
   return (
-    <div className={classes.grid}>
-      <GridList cellHeight={160} className={classes.gridList} cols={3}>
-        {tileData.map(({ id, img, title, author, cols }) => (
-          <GridListTile
-            key={id}
-            cols={cols || 1}
-            className={classes.imgTile}
-            title={title}
-            onClick={handleClick.bind(this, id)}
-          >
-            <img src={img} alt={title} />
-            <GridListTileBar
+    <div>
+      <br />
+      <div className={classes.grid}>
+        <GridList cellHeight={160} className={classes.gridList} cols={3}>
+          {tileData.map(({ id, img, title, author, cols }) => (
+            <GridListTile
+              key={id}
+              cols={cols || 1}
+              className={classes.imgTile}
               title={title}
-              subtitle={<span className={classes.author}>by: {author}</span>}
-              classes={{
-                title: classes.title,
-              }}
-              actionIcon={
-                <IconButton
-                  aria-label={`star ${title}`}
-                  className={classes.icon}
-                >
-                  <StarBorderIcon />
-                </IconButton>
-              }
-              actionPosition="left"
-              className={classes.titleBar}
-            />
-          </GridListTile>
-        ))}
-      </GridList>
-      <Dialog
-        onClose={modalClose}
-        aria-labelledby="customized-dialog-title"
-        open={open}
-      >
-        <DialogTitle id="customized-dialog-title" onClose={modalClose}>
-          {imgTitle} by {imgAuthor}
-        </DialogTitle>
-        <DialogContent dividers>
-          <Typography gutterBottom>
-            <img className={classes.imgModal} src={imgUrl} alt={imgTitle} />
-          </Typography>
-        </DialogContent>
-      </Dialog>
+              onClick={handleClick.bind(this, id)}
+            >
+              <img src={img} alt={title} />
+              <GridListTileBar
+                title={title}
+                subtitle={<span className={classes.author}>by: {author}</span>}
+                classes={{
+                  title: classes.title,
+                }}
+                actionIcon={
+                  <IconButton
+                    aria-label={`star ${title}`}
+                    className={classes.icon}
+                  >
+                    <StarBorderIcon />
+                  </IconButton>
+                }
+                actionPosition="left"
+                className={classes.titleBar}
+              />
+            </GridListTile>
+          ))}
+        </GridList>
+        <Dialog onClose={modalClose} aria-labelledby={imgId} open={open}>
+          <DialogTitle id={imgId} onClose={modalClose}>
+            {imgTitle} by {imgAuthor}
+          </DialogTitle>
+          <DialogContent dividers>
+            <Typography gutterBottom>
+              <img className={classes.imgModal} src={imgUrl} alt={imgTitle} />
+            </Typography>
+          </DialogContent>
+        </Dialog>
+      </div>
     </div>
   );
 }
 
-export default ImageGridList;
+export default Gallery;
