@@ -1,6 +1,6 @@
 import React, { Suspense } from "react";
-import tileData from "./tileData";
-import Progress from "../loader/progress.js";
+import ImageList from "./ImageList";
+import Loader from "../Loader/Loader.js";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
@@ -120,7 +120,7 @@ function Gallery() {
 
   // find image (id, title, author, url)
   const activeItemId = (id) => {
-    const getTile = tileData.find((tile) => tile.id === id);
+    const getTile = ImageList.find((tile) => tile.id === id);
     const getTitle = (getTile && getTile.title) || "";
     const getAuthor = (getTile && getTile.author) || "";
     const getUrl = (getTile && getTile.img) || "";
@@ -153,7 +153,7 @@ function Gallery() {
       <br />
       <div className={classes.grid}>
         <GridList cellHeight={160} className={classes.gridList} cols={3}>
-          {tileData.map(({ id, img, title, author, cols }) => (
+          {ImageList.map(({ id, img, title, author, cols }) => (
             <GridListTile
               key={id}
               cols={cols || 1}
@@ -209,7 +209,7 @@ function Gallery() {
           </DialogTitle>
           <DialogContent dividers>
             <Typography gutterBottom>
-              <Suspense fallback={<Progress />}>
+              <Suspense fallback={<Loader />}>
                 <img className={classes.imgModal} src={imgUrl} alt={imgTitle} />
               </Suspense>
             </Typography>

@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Progress() {
+export default function Loader() {
   const classes = useStyles();
 
   return (

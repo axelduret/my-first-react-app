@@ -1,7 +1,7 @@
 import React, { Suspense, lazy } from "react";
 import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
-import menuList from "./menuList";
-import Progress from "../loader/progress.js";
+import MenuList from "./MenuList";
+import Loader from "../Loader/Loader.js";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import { makeStyles } from "@material-ui/core/styles";
@@ -11,6 +11,7 @@ import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 
+// navbar style
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -29,22 +30,26 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function ButtonAppBar() {
+export default function NavBar() {
+  // properties
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [pageTitle, setTitle] = React.useState("Home");
-  const Home = lazy(() => import("../Home/index.js"));
-  const Gallery = lazy(() => import("../ImageGridList/Gallery.js"));
+  const Home = lazy(() => import("../Home/Home.js"));
+  const Gallery = lazy(() => import("../Gallery/Gallery.js"));
 
+  // click on menu item
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
 
+  // set page title
   const handleClickItem = (title) => {
     handleClose();
     setTitle(title);
   };
 
+  // close menu
   const handleClose = () => {
     setAnchorEl(null);
   };
@@ -73,7 +78,7 @@ export default function ButtonAppBar() {
               open={Boolean(anchorEl)}
               onClose={handleClose}
             >
-              {menuList.map(({ id, title, url }) => (
+              {MenuList.map(({ id, title, url }) => (
                 <Link
                   key={id}
                   to={url}
@@ -96,7 +101,7 @@ export default function ButtonAppBar() {
           </Toolbar>
         </AppBar>
 
-        <Suspense fallback={<Progress />}>
+        <Suspense fallback={<Loader />}>
           <Switch>
             <Route path="/gallery" component={Gallery} />
             <Route path="" component={Home} />

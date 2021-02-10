@@ -6,7 +6,7 @@ import honey from "./img/honey.jpg";
 import mushroom from "./img/mushroom.jpg";
 import olive from "./img/olive.jpg";
 
-const tileData = [
+const ImageList = [
   { id: 1, img: breakfast, title: "Breakfast", author: "Kilian", cols: 2 },
   { id: 2, img: burgers, title: "Burgers", author: "Mike", cols: 1 },
   { id: 3, img: camera, title: "Camera", author: "Lahouari", cols: 1 },
@@ -16,4 +16,4 @@ const tileData = [
   { id: 7, img: olive, title: "Olive", author: "Aurélie", cols: 1 },
 ];
 
-export default tileData;
+export default ImageList;

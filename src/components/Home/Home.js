@@ -18,7 +18,7 @@ const newStyles = makeStyles((theme) => ({
   },
 }));
 
-function index() {
+function Home() {
   const classes = newStyles();
   return (
     <div>
@@ -40,4 +40,4 @@ function index() {
     </div>
   );
 }
-export default index;
+export default Home;

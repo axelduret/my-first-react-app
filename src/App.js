@@ -1,10 +1,10 @@
 import React from "react";
-import ButtonAppBar from "./components/ButtonAppBar/ButtonAppBar.js";
+import NavBar from "./components/NavBar/NavBar.js";
 
 function App() {
   return (
     <div className="App">
-      <ButtonAppBar />
+      <NavBar />
     </div>
   );
 }
