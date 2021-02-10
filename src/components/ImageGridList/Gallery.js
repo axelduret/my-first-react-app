@@ -1,11 +1,14 @@
-import React from "react";
+import React, { Suspense } from "react";
 import tileData from "./tileData";
+import Progress from "../loader/progress.js";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
 import GridListTileBar from "@material-ui/core/GridListTileBar";
 import IconButton from "@material-ui/core/IconButton";
 import StarBorderIcon from "@material-ui/icons/StarBorder";
+import StarIcon from "@material-ui/icons/Star";
+import ImageSearchIcon from "@material-ui/icons/ImageSearch";
 import Dialog from "@material-ui/core/Dialog";
 import MuiDialogTitle from "@material-ui/core/DialogTitle";
 import MuiDialogContent from "@material-ui/core/DialogContent";
@@ -24,14 +27,22 @@ const useStyles = makeStyles((theme) => ({
     height: 492,
   },
   imgTile: {
-    cursor: "pointer",
+    cursor: "default",
   },
   titleBar: {
     background:
       "linear-gradient(to top, rgba(0,0,0,0.7) 0%, " +
       "rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)",
   },
+  headerBar: {
+    background:
+      "linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, " +
+      "rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)",
+  },
   title: {
+    color: theme.palette.grey[200],
+  },
+  header: {
     color: theme.palette.grey[200],
   },
   author: {
@@ -40,7 +51,10 @@ const useStyles = makeStyles((theme) => ({
   imgModal: {
     width: 500,
   },
-  icon: {
+  loopIcon: {
+    color: theme.palette.grey[200],
+  },
+  starIcon: {
     color: theme.palette.warning.light,
   },
 }));
@@ -91,6 +105,15 @@ function Gallery() {
   const [imgTitle, setTitle] = React.useState("");
   const [imgAuthor, setAuthor] = React.useState("");
   const [imgUrl, setUrl] = React.useState("");
+  const [clicks, setClicks] = React.useState([]);
+  //add the id to the array of clicked items if it doesn't exist but if it does exist remove it. this makes sure that double clicking on an item brings it back to normal
+  const handleIconClick = (id) => {
+    let result = clicks.includes(id)
+      ? clicks.filter((click) => click !== id)
+      : [...clicks, id];
+    setClicks(result);
+    // change <AddCircleIcon /> to <BlockIcon /> at "id"
+  };
 
   const handleClick = (item) => {
     activeItemId(item);
@@ -124,9 +147,27 @@ function Gallery() {
               cols={cols || 1}
               className={classes.imgTile}
               title={title}
-              onClick={handleClick.bind(this, id)}
             >
               <img src={img} alt={title} />
+              <GridListTileBar
+                classes={{
+                  title: classes.header,
+                }}
+                titlePosition="top"
+                actionIcon={
+                  <IconButton
+                    aria-label={`star ${id}`}
+                    className={classes.starIcon}
+                    title="Star"
+                    key={id}
+                    onClick={handleIconClick.bind(this, id)}
+                  >
+                    {clicks.includes(id) ? <StarIcon /> : <StarBorderIcon />}
+                  </IconButton>
+                }
+                actionPosition="left"
+                className={classes.headerBar}
+              />
               <GridListTileBar
                 title={title}
                 subtitle={<span className={classes.author}>by: {author}</span>}
@@ -135,13 +176,16 @@ function Gallery() {
                 }}
                 actionIcon={
                   <IconButton
-                    aria-label={`star ${title}`}
-                    className={classes.icon}
+                    aria-label={`star ${id}`}
+                    className={classes.loopIcon}
+                    title="Zoom"
+                    key={id}
+                    onClick={handleClick.bind(this, id)}
                   >
-                    <StarBorderIcon />
+                    <ImageSearchIcon />
                   </IconButton>
                 }
-                actionPosition="left"
+                actionPosition="right"
                 className={classes.titleBar}
               />
             </GridListTile>
@@ -153,7 +197,9 @@ function Gallery() {
           </DialogTitle>
           <DialogContent dividers>
             <Typography gutterBottom>
-              <img className={classes.imgModal} src={imgUrl} alt={imgTitle} />
+              <Suspense fallback={<Progress />}>
+                <img className={classes.imgModal} src={imgUrl} alt={imgTitle} />
+              </Suspense>
             </Typography>
           </DialogContent>
         </Dialog>

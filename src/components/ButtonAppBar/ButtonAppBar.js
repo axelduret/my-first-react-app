@@ -1,6 +1,7 @@
 import React, { Suspense, lazy } from "react";
 import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
 import menuList from "./menuList";
+import Progress from "../loader/progress.js";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import { makeStyles } from "@material-ui/core/styles";
@@ -95,7 +96,7 @@ export default function ButtonAppBar() {
           </Toolbar>
         </AppBar>
 
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<Progress />}>
           <Switch>
             <Route path="/gallery" component={Gallery} />
             <Route path="" component={Home} />
