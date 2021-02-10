@@ -10,15 +10,15 @@ const newStyles = makeStyles((theme) => ({
   },
   h1: {
     textAlign: "center",
-    color: theme.palette.grey[600],
+    color: theme.palette.error.light,
   },
   p: {
-    textAlign: "left",
-    color: theme.palette.grey[400],
+    textAlign: "center",
+    color: theme.palette.error.light,
   },
 }));
 
-export default function Home() {
+export default function Error() {
   const classes = newStyles();
   return (
     <div>
@@ -27,13 +27,8 @@ export default function Home() {
         <CssBaseline />
         <Container maxWidth="sm">
           <Typography component="div" className={classes.root}>
-            <h1 className={classes.h1}>WELCOME HOME</h1>
-            <p className={classes.p}>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt
-              eos quaerat nostrum, quisquam itaque sint ipsum iusto, magni animi
-              fugit earum impedit ea assumenda mollitia reprehenderit
-              laboriosam. Quia, aliquam molestiae?
-            </p>
+            <h1 className={classes.h1}>ERROR 404</h1>
+            <p className={classes.p}>This page doesn't exist !</p>
           </Typography>
         </Container>
       </React.Fragment>

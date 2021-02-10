@@ -1,7 +1,6 @@
-import React, { Suspense, lazy } from "react";
-import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
+import React from "react";
+import { Link } from "react-router-dom";
 import MenuList from "./MenuList";
-import Loader from "../Loader/Loader.js";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import { makeStyles } from "@material-ui/core/styles";
@@ -13,9 +12,6 @@ import MenuIcon from "@material-ui/icons/Menu";
 
 // navbar style
 const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-  },
   navbar: {
     background: theme.palette.primary.light,
   },
@@ -34,9 +30,7 @@ export default function NavBar() {
   // properties
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const [pageTitle, setTitle] = React.useState("Home");
-  const Home = lazy(() => import("../Home/Home.js"));
-  const Gallery = lazy(() => import("../Gallery/Gallery.js"));
+  const [pageTitle, setTitle] = React.useState("My React App");
 
   // click on menu item
   const handleClick = (event) => {
@@ -55,59 +49,46 @@ export default function NavBar() {
   };
 
   return (
-    <Router>
-      <div className={classes.root}>
-        <AppBar position="static" className={classes.navbar}>
-          <Toolbar>
-            <IconButton
-              edge="start"
-              className={classes.menuButton}
-              color="inherit"
-              aria-label="menu"
-              aria-controls="simple-menu"
-              aria-haspopup="true"
-              onClick={handleClick}
+    <AppBar position="static" className={classes.navbar}>
+      <Toolbar>
+        <IconButton
+          edge="start"
+          className={classes.menuButton}
+          color="inherit"
+          aria-label="menu"
+          aria-controls="simple-menu"
+          aria-haspopup="true"
+          onClick={handleClick}
+        >
+          <MenuIcon />
+        </IconButton>
+        <Menu
+          id="simple-menu"
+          anchorEl={anchorEl}
+          keepMounted
+          open={Boolean(anchorEl)}
+          onClose={handleClose}
+        >
+          {MenuList.map(({ id, title, link, url }) => (
+            <Link
+              key={id}
+              to={url}
+              style={{ textDecoration: "none", display: "block" }}
+              className={classes.menuItem}
             >
-              <MenuIcon />
-            </IconButton>
-
-            <Menu
-              id="simple-menu"
-              anchorEl={anchorEl}
-              keepMounted
-              open={Boolean(anchorEl)}
-              onClose={handleClose}
-            >
-              {MenuList.map(({ id, title, url }) => (
-                <Link
-                  key={id}
-                  to={url}
-                  style={{ textDecoration: "none", display: "block" }}
-                  className={classes.menuItem}
-                >
-                  <MenuItem
-                    key={id}
-                    onClick={handleClickItem.bind(this, title)}
-                  >
-                    {title}
-                  </MenuItem>
-                </Link>
-              ))}
-            </Menu>
-
-            <Typography variant="h6" className={classes.title}>
-              {pageTitle}
-            </Typography>
-          </Toolbar>
-        </AppBar>
-
-        <Suspense fallback={<Loader />}>
-          <Switch>
-            <Route path="/gallery" component={Gallery} />
-            <Route path="" component={Home} />
-          </Switch>
-        </Suspense>
-      </div>
-    </Router>
+              <MenuItem
+                key={id}
+                onClick={handleClickItem.bind(this, title, link)}
+              >
+                {link}
+              </MenuItem>
+            </Link>
+          ))}
+        </Menu>
+        <Typography variant="h6" className={classes.title}>
+          {pageTitle}
+        </Typography>
+      </Toolbar>
+    </AppBar>
   );
 }

@@ -76,7 +76,7 @@ const styles = (theme) => ({
   },
 });
 
-function Gallery() {
+export default function Gallery() {
   // properties
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
@@ -219,5 +219,3 @@ function Gallery() {
     </div>
   );
 }
-
-export default Gallery;
