@@ -31,9 +31,28 @@ const useStyles = makeStyles((theme) => ({
 export default function NavBar() {
   // properties
   const classes = useStyles();
-  const [anchorEl, setAnchorEl] = useState(null);
-  const [pageTitle, setTitle] = useState("My React Page");
   const history = useHistory();
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [pageTitle, setTitle] = useState(() => {
+    if (window.location.pathname === "/image") {
+      return "Portfolio";
+    } else if (window.location.pathname === "/beer") {
+      return "Punk API";
+    } else {
+      return "My React App";
+    }
+  });
+
+  // set document title
+  function PageTitle() {
+    if (window.location.pathname === "/image") {
+      document.title = "Portfolio";
+    } else if (window.location.pathname === "/beer") {
+      document.title = "Punk API";
+    } else {
+      document.title = "My React App";
+    }
+  }
 
   // open menu
   const handleClick = (event) => {
@@ -59,6 +78,7 @@ export default function NavBar() {
 
   return (
     <AppBar position="static" className={classes.navbar}>
+      {PageTitle()}
       <Toolbar>
         <IconButton
           edge="start"
