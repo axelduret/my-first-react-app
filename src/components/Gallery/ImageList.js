@@ -6,6 +6,7 @@ import honey from "./img/honey.jpg";
 import mushroom from "./img/mushroom.jpg";
 import olive from "./img/olive.jpg";
 
+// list of images to display in Gallery.js component
 const ImageList = [
   { id: 1, img: breakfast, title: "Breakfast", author: "Kilian", cols: 2 },
   { id: 2, img: burgers, title: "Burgers", author: "Mike", cols: 1 },

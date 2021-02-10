@@ -1,3 +1,4 @@
+// list of menu items to display in NavBar.js component
 const menuList = [
   { id: 1, title: "My React App", link: "Home", url: "" },
   {
