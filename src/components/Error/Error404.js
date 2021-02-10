@@ -6,6 +6,7 @@ import Container from "@material-ui/core/Container";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 
+// error page style
 const newStyles = makeStyles((theme) => ({
   root: {
     textAlign: "center",
@@ -29,6 +30,7 @@ const newStyles = makeStyles((theme) => ({
 }));
 
 export default function Error() {
+  //properties
   const classes = newStyles();
   return (
     <div>

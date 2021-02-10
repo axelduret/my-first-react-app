@@ -11,6 +11,7 @@ import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import Container from "@material-ui/core/Container";
 
+// beer page style
 const newStyles = makeStyles(() => ({
   root: {
     textAlign: "center",
@@ -19,9 +20,11 @@ const newStyles = makeStyles(() => ({
 }));
 
 export default function Beer() {
+  //properties
   const classes = newStyles();
   const [datas, setData] = React.useState([]);
 
+  // fetch API using axios
   const componentDidMount = () => {
     axios.get("https://api.punkapi.com/v2/beers").then((res) => {
       const datas = res.data;

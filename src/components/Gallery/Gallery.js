@@ -18,7 +18,7 @@ import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 import Slide from "@material-ui/core/Slide";
 
-// image grid style
+// image grid page style
 const useStyles = makeStyles((theme) => ({
   grid: {
     display: "flex",
@@ -79,7 +79,7 @@ const styles = (theme) => ({
   },
 });
 
-// slide dialog
+// slide transition for dialog
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });

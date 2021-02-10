@@ -2,6 +2,7 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
+// loader style
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
@@ -18,6 +19,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Loader() {
+  //properties
   const classes = useStyles();
 
   return (
