@@ -15,6 +15,7 @@ import MuiDialogContent from "@material-ui/core/DialogContent";
 import CloseIcon from "@material-ui/icons/Close";
 import Typography from "@material-ui/core/Typography";
 
+// image grid style
 const useStyles = makeStyles((theme) => ({
   grid: {
     display: "flex",
@@ -59,6 +60,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+// dialog style
 const styles = (theme) => ({
   root: {
     margin: 0,
@@ -74,31 +76,8 @@ const styles = (theme) => ({
   },
 });
 
-const DialogTitle = withStyles(styles)((props) => {
-  const { children, classes, onClose, ...other } = props;
-  return (
-    <MuiDialogTitle disableTypography className={classes.root} {...other}>
-      <Typography variant="h6">{children}</Typography>
-      {onClose ? (
-        <IconButton
-          aria-label="close"
-          className={classes.closeButton}
-          onClick={onClose}
-        >
-          <CloseIcon />
-        </IconButton>
-      ) : null}
-    </MuiDialogTitle>
-  );
-});
-
-const DialogContent = withStyles((theme) => ({
-  root: {
-    padding: theme.spacing(2),
-  },
-}))(MuiDialogContent);
-
 function Gallery() {
+  // properties
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const [imgId, setId] = React.useState(null);
@@ -106,32 +85,65 @@ function Gallery() {
   const [imgAuthor, setAuthor] = React.useState("");
   const [imgUrl, setUrl] = React.useState("");
   const [clicks, setClicks] = React.useState([]);
-  //add the id to the array of clicked items if it doesn't exist but if it does exist remove it. this makes sure that double clicking on an item brings it back to normal
+
+  // dialog title template
+  const DialogTitle = withStyles(styles)((props) => {
+    const { children, classes, onClose, ...other } = props;
+    return (
+      <MuiDialogTitle disableTypography className={classes.root} {...other}>
+        <Typography variant="h6">{children}</Typography>
+        {onClose ? (
+          <IconButton
+            aria-label="close"
+            className={classes.closeButton}
+            onClick={onClose}
+          >
+            <CloseIcon />
+          </IconButton>
+        ) : null}
+      </MuiDialogTitle>
+    );
+  });
+
+  // dialog content template
+  const DialogContent = withStyles((theme) => ({
+    root: {
+      padding: theme.spacing(2),
+    },
+  }))(MuiDialogContent);
+
+  // click on loop action
+  const handleClick = (item) => {
+    activeItemId(item);
+    modalOpen();
+  };
+
+  // find image (id, title, author, url)
+  const activeItemId = (id) => {
+    const getTile = tileData.find((tile) => tile.id === id);
+    const getTitle = (getTile && getTile.title) || "";
+    const getAuthor = (getTile && getTile.author) || "";
+    const getUrl = (getTile && getTile.img) || "";
+    setId(id.toString());
+    setTitle(getTitle);
+    setAuthor(getAuthor);
+    setUrl(getUrl);
+  };
+
+  // click on star icon
   const handleIconClick = (id) => {
     let result = clicks.includes(id)
       ? clicks.filter((click) => click !== id)
       : [...clicks, id];
     setClicks(result);
-    // change <AddCircleIcon /> to <BlockIcon /> at "id"
   };
 
-  const handleClick = (item) => {
-    activeItemId(item);
-    modalOpen();
-  };
-  const activeItemId = (value) => {
-    const getTile = tileData.find((tile) => tile.id === value);
-    const getTitle = (getTile && getTile.title) || "";
-    const getAuthor = (getTile && getTile.author) || "";
-    const getUrl = (getTile && getTile.img) || "";
-    setId(value.toString());
-    setTitle(getTitle);
-    setAuthor(getAuthor);
-    setUrl(getUrl);
-  };
+  // open dialog
   const modalOpen = () => {
     setOpen(true);
   };
+
+  //close dialog
   const modalClose = () => {
     setOpen(false);
   };
