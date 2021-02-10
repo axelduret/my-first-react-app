@@ -2,6 +2,7 @@ import React, { Suspense } from "react";
 import ImageList from "./ImageList";
 import Loader from "../Loader/Loader.js";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
+import CssBaseline from "@material-ui/core/CssBaseline";
 import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
 import GridListTileBar from "@material-ui/core/GridListTileBar";
@@ -14,6 +15,7 @@ import MuiDialogTitle from "@material-ui/core/DialogTitle";
 import MuiDialogContent from "@material-ui/core/DialogContent";
 import CloseIcon from "@material-ui/icons/Close";
 import Typography from "@material-ui/core/Typography";
+import Container from "@material-ui/core/Container";
 
 // image grid style
 const useStyles = makeStyles((theme) => ({
@@ -22,6 +24,7 @@ const useStyles = makeStyles((theme) => ({
     flexWrap: "wrap",
     justifyContent: "space-around",
     overflow: "hidden",
+    margin: 20,
   },
   gridList: {
     width: 500,
@@ -150,72 +153,86 @@ export default function Gallery() {
 
   return (
     <div>
-      <br />
-      <div className={classes.grid}>
-        <GridList cellHeight={160} className={classes.gridList} cols={3}>
-          {ImageList.map(({ id, img, title, author, cols }) => (
-            <GridListTile
-              key={id}
-              cols={cols || 1}
-              className={classes.imgTile}
-              title={title}
-            >
-              <img src={img} alt={title} />
-              <GridListTileBar
-                classes={{
-                  title: classes.header,
-                }}
-                titlePosition="top"
-                actionIcon={
-                  <IconButton
-                    aria-label={`star ${id}`}
-                    className={classes.starIcon}
-                    title="Star"
-                    key={id}
-                    onClick={handleIconClick.bind(this, id)}
-                  >
-                    {clicks.includes(id) ? <StarIcon /> : <StarBorderIcon />}
-                  </IconButton>
-                }
-                actionPosition="left"
-                className={classes.headerBar}
-              />
-              <GridListTileBar
-                title={title}
-                subtitle={<span className={classes.author}>by: {author}</span>}
-                classes={{
-                  title: classes.title,
-                }}
-                actionIcon={
-                  <IconButton
-                    aria-label={`star ${id}`}
-                    className={classes.loopIcon}
-                    title="Zoom"
-                    key={id}
-                    onClick={handleClick.bind(this, id)}
-                  >
-                    <ImageSearchIcon />
-                  </IconButton>
-                }
-                actionPosition="right"
-                className={classes.titleBar}
-              />
-            </GridListTile>
-          ))}
-        </GridList>
-        <Dialog onClose={modalClose} aria-labelledby={imgId} open={open}>
-          <DialogTitle id={imgId} onClose={modalClose}>
-            {imgTitle} by {imgAuthor}
-          </DialogTitle>
-          <DialogContent dividers>
-            <Typography gutterBottom>
-              <Suspense fallback={<Loader />}>
-                <img className={classes.imgModal} src={imgUrl} alt={imgTitle} />
-              </Suspense>
-            </Typography>
-          </DialogContent>
-        </Dialog>
-      </div>
+      <React.Fragment>
+        <CssBaseline />
+        <Container maxWidth="sm">
+          <div className={classes.grid}>
+            <GridList cellHeight={160} className={classes.gridList} cols={3}>
+              {ImageList.map(({ id, img, title, author, cols }) => (
+                <GridListTile
+                  key={id}
+                  cols={cols || 1}
+                  className={classes.imgTile}
+                  title={title}
+                >
+                  <img src={img} alt={title} />
+                  <GridListTileBar
+                    classes={{
+                      title: classes.header,
+                    }}
+                    titlePosition="top"
+                    actionIcon={
+                      <IconButton
+                        aria-label={`star ${id}`}
+                        className={classes.starIcon}
+                        title="Star"
+                        key={id}
+                        onClick={handleIconClick.bind(this, id)}
+                      >
+                        {clicks.includes(id) ? (
+                          <StarIcon />
+                        ) : (
+                          <StarBorderIcon />
+                        )}
+                      </IconButton>
+                    }
+                    actionPosition="left"
+                    className={classes.headerBar}
+                  />
+                  <GridListTileBar
+                    title={title}
+                    subtitle={
+                      <span className={classes.author}>by: {author}</span>
+                    }
+                    classes={{
+                      title: classes.title,
+                    }}
+                    actionIcon={
+                      <IconButton
+                        aria-label={`star ${id}`}
+                        className={classes.loopIcon}
+                        title="Zoom"
+                        key={id}
+                        onClick={handleClick.bind(this, id)}
+                      >
+                        <ImageSearchIcon />
+                      </IconButton>
+                    }
+                    actionPosition="right"
+                    className={classes.titleBar}
+                  />
+                </GridListTile>
+              ))}
+            </GridList>
+            <Dialog onClose={modalClose} aria-labelledby={imgId} open={open}>
+              <DialogTitle id={imgId} onClose={modalClose}>
+                {imgTitle} by {imgAuthor}
+              </DialogTitle>
+              <DialogContent dividers>
+                <Typography gutterBottom>
+                  <Suspense fallback={<Loader />}>
+                    <img
+                      className={classes.imgModal}
+                      src={imgUrl}
+                      alt={imgTitle}
+                    />
+                  </Suspense>
+                </Typography>
+              </DialogContent>
+            </Dialog>
+          </div>
+        </Container>
+      </React.Fragment>
     </div>
   );
 }
