@@ -1,4 +1,4 @@
-import React, { Suspense } from "react";
+import React, { useState, Suspense, forwardRef } from "react";
 import ImageList from "./ImageList";
 import Loader from "../Loader/Loader.js";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
@@ -80,19 +80,19 @@ const styles = (theme) => ({
 });
 
 // slide transition for dialog
-const Transition = React.forwardRef(function Transition(props, ref) {
+const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
 export default function Gallery() {
   // properties
   const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
-  const [imgId, setId] = React.useState(null);
-  const [imgTitle, setTitle] = React.useState("");
-  const [imgAuthor, setAuthor] = React.useState("");
-  const [imgUrl, setUrl] = React.useState("");
-  const [clicks, setClicks] = React.useState([]);
+  const [open, setOpen] = useState(false);
+  const [imgId, setId] = useState(null);
+  const [imgTitle, setTitle] = useState("");
+  const [imgAuthor, setAuthor] = useState("");
+  const [imgUrl, setUrl] = useState("");
+  const [clicks, setClicks] = useState([]);
 
   // dialog title template
   const DialogTitle = withStyles(styles)((props) => {

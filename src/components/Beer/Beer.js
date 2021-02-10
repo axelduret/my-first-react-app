@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -22,7 +22,7 @@ const newStyles = makeStyles(() => ({
 export default function Beer() {
   //properties
   const classes = newStyles();
-  const [datas, setData] = React.useState([]);
+  const [datas, setData] = useState([]);
 
   // fetch API using axios
   const componentDidMount = () => {

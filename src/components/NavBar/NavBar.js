@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import MenuList from "./MenuList";
 import Menu from "@material-ui/core/Menu";
@@ -31,8 +31,8 @@ const useStyles = makeStyles((theme) => ({
 export default function NavBar() {
   // properties
   const classes = useStyles();
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const [pageTitle, setTitle] = React.useState("My React App");
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [pageTitle, setTitle] = useState("My React App");
 
   // click on menu item
   const handleClick = (event) => {
