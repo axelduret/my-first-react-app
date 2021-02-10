@@ -10,10 +10,13 @@ const newStyles = makeStyles((theme) => ({
     textAlign: "center",
     padding: 20,
     margin: 20,
+    paddingTop: 4,
+    paddingBottom: 16,
   },
   h1: {
     textAlign: "center",
-    color: theme.palette.warning.light,
+    color: theme.palette.common.white,
+    background: "linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)",
   },
   p: {
     textAlign: "left",
