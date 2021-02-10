@@ -20,18 +20,18 @@ export default function MyRouter() {
   const Beer = lazy(() => import("./components/Beer/Beer.js"));
 
   return (
-    <Router>
-      <div className={classes.root}>
-        <NavBar />
+    <div className={classes.root}>
+      <Router>
         <Suspense fallback={<Loader />}>
+          <NavBar />
           <Switch>
-            <Route exact path="/" component={Home} />
-            <Route exact path="/image" component={Gallery} />
-            <Route exact path="/beer" component={Beer} />
+            <Route exact path={"/"} component={Home} />
+            <Route exact path={"/image"} component={Gallery} />
+            <Route exact path={"/beer"} component={Beer} />
             <Route component={Error} />
           </Switch>
         </Suspense>
-      </div>
-    </Router>
+      </Router>
+    </div>
   );
 }

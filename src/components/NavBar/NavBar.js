@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import MenuList from "./MenuList";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -32,17 +32,24 @@ export default function NavBar() {
   // properties
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
-  const [pageTitle, setTitle] = useState("My React App");
+  const [pageTitle, setTitle] = useState("My React Page");
+  const history = useHistory();
 
-  // click on menu item
+  // open menu
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
 
-  // set page title
-  const handleClickItem = (title) => {
-    handleClose();
+  // click on a menu item
+  // 1. set page title
+  // 2. push url in router history
+  // 3. set document title
+  // 4. call the close menu function
+  const handleClickItem = (title, url) => {
     setTitle(title);
+    history.push(url);
+    document.title = title;
+    handleClose();
   };
 
   // close menu
@@ -80,7 +87,7 @@ export default function NavBar() {
             >
               <MenuItem
                 key={id}
-                onClick={handleClickItem.bind(this, title, link)}
+                onClick={handleClickItem.bind(this, title, url)}
               >
                 {link}
               </MenuItem>

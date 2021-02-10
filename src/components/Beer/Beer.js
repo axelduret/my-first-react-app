@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -25,19 +25,25 @@ export default function Beer() {
   const [datas, setData] = useState([]);
 
   // fetch API using axios
-  const componentDidMount = () => {
-    axios.get("https://api.punkapi.com/v2/beers").then((res) => {
-      const datas = res.data;
-      setData(datas);
-    });
-  };
+  function FetchApi() {
+    useEffect(() => {
+      axios
+        .get("https://api.punkapi.com/v2/beers")
+        .then((response) => setData(response.data));
+    }, []);
+  }
+
+  // return JSON from API
+  /*   function ReturnJson() {
+    return <code>{JSON.stringify(datas)}</code>;
+  } */
 
   return (
     <div className={classes.root}>
+      {FetchApi()}
       <React.Fragment>
         <CssBaseline />
         <Container maxWidth="sm">
-          {componentDidMount()}
           <TableContainer component={Paper}>
             <Table className={classes.table} aria-label="simple table">
               <TableHead>
