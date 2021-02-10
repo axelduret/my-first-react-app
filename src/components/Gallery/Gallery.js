@@ -16,6 +16,7 @@ import MuiDialogContent from "@material-ui/core/DialogContent";
 import CloseIcon from "@material-ui/icons/Close";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
+import Slide from "@material-ui/core/Slide";
 
 // image grid style
 const useStyles = makeStyles((theme) => ({
@@ -67,7 +68,6 @@ const useStyles = makeStyles((theme) => ({
 const styles = (theme) => ({
   root: {
     margin: 0,
-    padding: theme.spacing(2),
     background: theme.palette.primary.light,
     color: theme.palette.grey[200],
   },
@@ -77,6 +77,11 @@ const styles = (theme) => ({
     top: theme.spacing(1),
     color: theme.palette.grey[200],
   },
+});
+
+// slide dialog
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
 });
 
 export default function Gallery() {
@@ -214,7 +219,12 @@ export default function Gallery() {
                 </GridListTile>
               ))}
             </GridList>
-            <Dialog onClose={modalClose} aria-labelledby={imgId} open={open}>
+            <Dialog
+              TransitionComponent={Transition}
+              onClose={modalClose}
+              aria-labelledby={imgId}
+              open={open}
+            >
               <DialogTitle id={imgId} onClose={modalClose}>
                 {imgTitle} by {imgAuthor}
               </DialogTitle>
