@@ -19,8 +19,12 @@ const newStyles = makeStyles((theme) => ({
     background: "linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)",
   },
   p: {
-    textAlign: "left",
+    textAlign: "center",
     color: theme.palette.grey[400],
+  },
+  code: {
+    textAlign: "center",
+    color: theme.palette.grey[300],
   },
 }));
 
@@ -39,6 +43,7 @@ export default function Home() {
               fugit earum impedit ea assumenda mollitia reprehenderit
               laboriosam. Quia, aliquam molestiae?
             </p>
+            <code className={classes.code}>Axel Duret 2021 &copy;</code>
           </Typography>
         </Container>
       </React.Fragment>

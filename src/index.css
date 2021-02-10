@@ -9,8 +9,7 @@ body {
   overflow: scroll;
   overflow-x: hidden;
   font-size: 14px;
-  background-color: #18181b;
-  color: aliceblue;
+  background-color: aliceblue;
 }
 ::-webkit-scrollbar {
   width: 0.5rem;
