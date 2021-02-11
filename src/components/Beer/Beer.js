@@ -6,7 +6,6 @@ import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
-// import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import Container from "@material-ui/core/Container";
@@ -65,7 +64,14 @@ const AccordionSummary = withStyles({
   expanded: {},
 })(MuiAccordionSummary);
 
-// accordion button style
+// accordion details style
+const AccordionDetails = withStyles((theme) => ({
+  root: {
+    padding: theme.spacing(2),
+  },
+}))(MuiAccordionDetails);
+
+// accordion rotating button style
 const useStyles = makeStyles((theme) => ({
   expand: {
     transform: "rotate(0deg)",
@@ -83,18 +89,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const AccordionDetails = withStyles((theme) => ({
-  root: {
-    padding: theme.spacing(2),
-  },
-}))(MuiAccordionDetails);
-
 export default function Beer() {
   //properties
   const classes = newStyles();
   const accordionButtonClasses = useStyles();
   const [datas, setData] = useState([]);
   const [expanded, setExpanded] = useState(false);
+
   // change accordion state on click event
   const handleChange = (id) => (event, newExpanded) => {
     setExpanded(newExpanded ? id : false);
