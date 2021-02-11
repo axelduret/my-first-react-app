@@ -127,6 +127,8 @@ export default function Beer() {
               square
               expanded={expanded === data.id}
               onChange={handleChange(data.id)}
+              aria-label={expanded !== data.id ? "Show more" : "Show less"}
+              title={expanded !== data.id ? "Show more" : "Show less"}
             >
               <AccordionSummary key={`accordionSummary ${data.id}`}>
                 <Typography className={classes.beerName}>
@@ -139,8 +141,6 @@ export default function Beer() {
                       ? accordionButtonClasses.expand
                       : accordionButtonClasses.expandOpen
                   }
-                  aria-label="Show less"
-                  title="Show less"
                 >
                   <ExpandMoreIcon />
                 </IconButton>
