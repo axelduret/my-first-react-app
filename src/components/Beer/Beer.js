@@ -94,7 +94,7 @@ export default function Beer() {
   const classes = newStyles();
   const accordionButtonClasses = useStyles();
   const [datas, setData] = useState([]);
-  const [expanded, setExpanded] = useState(false);
+  const [expanded, setExpanded] = useState();
 
   // change accordion state on click event
   const handleChange = (id) => (event, newExpanded) => {
@@ -128,11 +128,12 @@ export default function Beer() {
               expanded={expanded === data.id}
               onChange={handleChange(data.id)}
             >
-              <AccordionSummary>
+              <AccordionSummary key={`accordionSummary ${data.id}`}>
                 <Typography className={classes.beerName}>
                   {data.name}
                 </Typography>
                 <IconButton
+                  key={`icon ${data.id}`}
                   className={
                     expanded !== data.id
                       ? accordionButtonClasses.expand
@@ -144,7 +145,7 @@ export default function Beer() {
                   <ExpandMoreIcon />
                 </IconButton>
               </AccordionSummary>
-              <AccordionDetails>
+              <AccordionDetails key={`accordionDetails ${data.id}`}>
                 <TableContainer component={Paper}>
                   <Table className={classes.table} aria-label="simple table">
                     <TableBody>
@@ -154,6 +155,7 @@ export default function Beer() {
                             width="50px"
                             src={data.image_url}
                             alt={data.name}
+                            key={`accordionImg ${data.id}`}
                           />
                         </TableCell>
                         <TableCell component="th" scope="row">
