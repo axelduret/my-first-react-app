@@ -162,16 +162,22 @@ export default function Gallery() {
         <CssBaseline />
         <Container maxWidth="sm">
           <div className={classes.grid}>
-            <GridList cellHeight={160} className={classes.gridList} cols={3}>
+            <GridList
+              key={`list`}
+              cellHeight={160}
+              className={classes.gridList}
+              cols={3}
+            >
               {ImageList.map(({ id, img, title, author, cols }) => (
                 <GridListTile
-                  key={id}
+                  key={`tile ${id}`}
                   cols={cols || 1}
                   className={classes.imgTile}
                   title={title}
                 >
-                  <img src={img} alt={title} />
+                  <img key={`img ${id}`} src={img} alt={title} />
                   <GridListTileBar
+                    key={`tileBarTop ${id}`}
                     classes={{
                       title: classes.header,
                     }}
@@ -181,7 +187,7 @@ export default function Gallery() {
                         aria-label={`star ${id}`}
                         className={classes.starIcon}
                         title="Star"
-                        key={id}
+                        key={`star ${id}`}
                         onClick={handleIconClick.bind(this, id)}
                       >
                         {clicks.includes(id) ? (
@@ -195,6 +201,7 @@ export default function Gallery() {
                     className={classes.headerBar}
                   />
                   <GridListTileBar
+                    key={`tileBarBottom ${id}`}
                     title={title}
                     subtitle={
                       <span className={classes.author}>by: {author}</span>
@@ -204,10 +211,10 @@ export default function Gallery() {
                     }}
                     actionIcon={
                       <IconButton
-                        aria-label={`star ${id}`}
+                        aria-label={`loop ${id}`}
                         className={classes.loopIcon}
                         title="Zoom"
-                        key={id}
+                        key={`loop ${id}`}
                         onClick={handleClick.bind(this, id)}
                       >
                         <ImageSearchIcon />
@@ -220,18 +227,20 @@ export default function Gallery() {
               ))}
             </GridList>
             <Dialog
+              key={`dialog ${imgId}`}
               TransitionComponent={Transition}
               onClose={modalClose}
-              aria-labelledby={imgId}
+              aria-labelledby={`dialogTitle ${imgId}`}
               open={open}
             >
-              <DialogTitle id={imgId} onClose={modalClose}>
+              <DialogTitle key={`dialogTitle ${imgId}`} onClose={modalClose}>
                 {imgTitle} by {imgAuthor}
               </DialogTitle>
-              <DialogContent dividers>
+              <DialogContent key={`dialogContent ${imgId}`} dividers>
                 <Typography gutterBottom>
                   <Suspense fallback={<Loader />}>
                     <img
+                      key={`dialogImg ${imgId}`}
                       className={classes.imgModal}
                       src={imgUrl}
                       alt={imgTitle}
